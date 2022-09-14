@@ -38,6 +38,7 @@ fn ndk() -> String {
 struct Toolchain {
     cc: String,
     cxx: String,
+    ar: String,
     strip: String,
 }
 
@@ -54,6 +55,10 @@ fn toolchain(target: &str, api: usize) -> Toolchain {
             "{}/toolchains/llvm/prebuilt/linux-x86_64/bin/{}-linux-android{}-clang++",
             &ndk, arch, api
         ),
+        ar: format!(
+            "{}/toolchains/llvm/prebuilt/linux-x86_64/bin/{}-linux-android-ar",
+            &ndk, arch
+        ),
         strip: format!(
             "{}/toolchains/llvm/prebuilt/linux-x86_64/bin/{}-linux-android-strip",
             &ndk, arch
@@ -68,5 +73,6 @@ fn envs(target: &str, api: usize) -> Vec<(String, String)> {
         (linker(target), toolchain.cc.clone()),
         (format!("CC_{}", target), toolchain.cc.clone()),
         (format!("CXX_{}", target), toolchain.cxx.clone()),
+        (format!("AR_{}", target), toolchain.ar.clone()),
     ]
 }
