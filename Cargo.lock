@@ -5,3 +5,12 @@ version = 3
 [[package]]
 name = "cargo-android"
 version = "0.1.0"
+dependencies = [
+ "target",
+]
+
+[[package]]
+name = "target"
+version = "2.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ba852e71502340e2eaf2fa51f9b3ec6aa25750da1aa65771491c69d67789b05c"

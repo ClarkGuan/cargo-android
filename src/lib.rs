@@ -46,22 +46,29 @@ fn toolchain(target: &str, api: usize) -> Toolchain {
     let arch = &target[..target.find("-").expect("target has no '-'")];
     let arch = if arch == "armv7" { "armv7a" } else { arch };
     let ndk = ndk();
+    let host_os = target::os();
+    let host_os = if host_os == "macos" {
+        "darwin"
+    } else {
+        host_os
+    };
+    let host_arch = target::arch();
     Toolchain {
         cc: format!(
-            "{}/toolchains/llvm/prebuilt/linux-x86_64/bin/{}-linux-android{}-clang",
-            &ndk, arch, api
+            "{}/toolchains/llvm/prebuilt/{}-{}/bin/{}-linux-android{}-clang",
+            &ndk, host_os, host_arch, arch, api
         ),
         cxx: format!(
-            "{}/toolchains/llvm/prebuilt/linux-x86_64/bin/{}-linux-android{}-clang++",
-            &ndk, arch, api
+            "{}/toolchains/llvm/prebuilt/{}-{}/bin/{}-linux-android{}-clang++",
+            &ndk, host_os, host_arch, arch, api
         ),
         ar: format!(
-            "{}/toolchains/llvm/prebuilt/linux-x86_64/bin/{}-linux-android-ar",
-            &ndk, arch
+            "{}/toolchains/llvm/prebuilt/{}-{}/bin/{}-linux-android-ar",
+            &ndk, host_os, host_arch, arch
         ),
         strip: format!(
-            "{}/toolchains/llvm/prebuilt/linux-x86_64/bin/{}-linux-android-strip",
-            &ndk, arch
+            "{}/toolchains/llvm/prebuilt/{}-{}/bin/{}-linux-android-strip",
+            &ndk, host_os, host_arch, arch
         ),
     }
 }
