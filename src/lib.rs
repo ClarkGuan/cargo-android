@@ -27,6 +27,13 @@ fn linker(s: &str) -> String {
     )
 }
 
+fn runner(s: &str) -> String {
+    format!(
+        "CARGO_TARGET_{}_RUNNER",
+        s.to_ascii_uppercase().replace('-', "_")
+    )
+}
+
 fn ndk() -> String {
     const ENVS: &[&str] = &["NDK", "NDK_HOME", "NDK_ROOT"];
     ENVS.iter()
@@ -78,6 +85,7 @@ fn envs(target: &str, api: usize) -> Vec<(String, String)> {
     vec![
         ("CARGO_BUILD_TARGET".to_string(), target.to_string()),
         (linker(target), toolchain.cc.clone()),
+        (runner(target), "arun".to_string()),
         (format!("CC_{}", target), toolchain.cc.clone()),
         (format!("CXX_{}", target), toolchain.cxx.clone()),
         (format!("AR_{}", target), toolchain.ar.clone()),
