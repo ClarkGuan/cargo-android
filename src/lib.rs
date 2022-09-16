@@ -51,11 +51,6 @@ struct Toolchain {
 
 fn toolchain(target: &str, api: usize) -> Toolchain {
     let arch = &target[..target.find("-").expect("target has no '-'")];
-    let arch = if arch == "armv7" {
-        "armv7a-linux-androideabi".to_string()
-    } else {
-        format!("{arch}-linux-android")
-    };
     let ndk = ndk();
     let host_os = target::os();
     let host_os = if host_os == "macos" {
@@ -64,23 +59,44 @@ fn toolchain(target: &str, api: usize) -> Toolchain {
         host_os
     };
     let host_arch = target::arch();
-    Toolchain {
-        cc: format!(
-            "{}/toolchains/llvm/prebuilt/{}-{}/bin/{}{}-clang",
-            &ndk, host_os, host_arch, arch, api
-        ),
-        cxx: format!(
-            "{}/toolchains/llvm/prebuilt/{}-{}/bin/{}{}-clang++",
-            &ndk, host_os, host_arch, arch, api
-        ),
-        ar: format!(
-            "{}/toolchains/llvm/prebuilt/{}-{}/bin/{}-ar",
-            &ndk, host_os, host_arch, arch
-        ),
-        strip: format!(
-            "{}/toolchains/llvm/prebuilt/{}-{}/bin/{}-strip",
-            &ndk, host_os, host_arch, arch
-        ),
+    match arch {
+        "armv7" => Toolchain {
+            cc: format!(
+                "{}/toolchains/llvm/prebuilt/{}-{}/bin/armv7a-linux-androideabi{}-clang",
+                &ndk, host_os, host_arch, api
+            ),
+            cxx: format!(
+                "{}/toolchains/llvm/prebuilt/{}-{}/bin/armv7a-linux-androideabi{}-clang++",
+                &ndk, host_os, host_arch, api
+            ),
+            ar: format!(
+                "{}/toolchains/llvm/prebuilt/{}-{}/bin/arm-linux-androideabi-ar",
+                &ndk, host_os, host_arch
+            ),
+            strip: format!(
+                "{}/toolchains/llvm/prebuilt/{}-{}/bin/arm-linux-androideabi-strip",
+                &ndk, host_os, host_arch
+            ),
+        },
+
+        arch => Toolchain {
+            cc: format!(
+                "{}/toolchains/llvm/prebuilt/{}-{}/bin/{}-linux-android{}-clang",
+                &ndk, host_os, host_arch, arch, api
+            ),
+            cxx: format!(
+                "{}/toolchains/llvm/prebuilt/{}-{}/bin/{}-linux-android{}-clang++",
+                &ndk, host_os, host_arch, arch, api
+            ),
+            ar: format!(
+                "{}/toolchains/llvm/prebuilt/{}-{}/bin/{}-linux-android-ar",
+                &ndk, host_os, host_arch, arch
+            ),
+            strip: format!(
+                "{}/toolchains/llvm/prebuilt/{}-{}/bin/{}-linux-android-strip",
+                &ndk, host_os, host_arch, arch
+            ),
+        },
     }
 }
 
