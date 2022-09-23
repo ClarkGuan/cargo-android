@@ -7,3 +7,5 @@ edition = "2021"
 
 [dependencies]
 target = "2.0"
+which = "4.3"
+scopeguard = "1.0"
