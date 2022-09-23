@@ -154,8 +154,7 @@ where
     let mut cmd = Command::new("adb");
     cmd.args(prefix_args)
         .args(args)
-        .arg("; echo \"============================\n[exit status:($?)]\"'");
-    // println!("{:?}", cmd);
+        .arg("; echo \"============================\n[exit status:($?)]\" 1>&2'");
     matches!(cmd.status(), Ok(s) if s.success())
 }
 
