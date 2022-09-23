@@ -143,7 +143,7 @@ where
     I: IntoIterator,
     I::Item: AsRef<OsStr>,
 {
-    let prefix_args: Vec<&OsStr> = vec![
+    let prefix_args = vec![
         "shell".as_ref(),
         "cd /data/local/tmp/".as_ref(),
         "&& chmod 777".as_ref(),
