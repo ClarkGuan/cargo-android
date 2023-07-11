@@ -2,7 +2,7 @@ use scopeguard::defer;
 use std::env;
 
 fn main() {
-    let args = env::args().skip(2).collect::<Vec<_>>();
+    let args = env::args().skip(1).collect::<Vec<_>>();
     assert!(args.len() > 0, "args.len() == 0");
     assert!(cargo_android::adb(), "adb not exist in $PATH");
     let (files, args) = partition(&args);
