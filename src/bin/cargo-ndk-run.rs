@@ -22,13 +22,9 @@ fn main() {
     );
 }
 
+// cargo xxx -- xxx xxx xxx
+// =>
+// cargo-xxx xxx xxx xxx
 fn partition(args: &[String]) -> (&[String], &[String]) {
-    match args
-        .iter()
-        .enumerate()
-        .find_map(|(i, s)| if s == "--" { Some(i) } else { None })
-    {
-        Some(index) => (&args[..index], &args[index + 1..]),
-        _ => (args, &[]),
-    }
+    (&args[..1], &args[1..])
 }

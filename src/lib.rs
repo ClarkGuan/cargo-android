@@ -5,6 +5,7 @@ use std::process::{Command, Stdio};
 
 pub fn run(target: &str) {
     let (api, args) = process_args();
+    let api = if api < 19 { 19 } else { api };
     let _ = Command::new(env::var("CARGO").expect("no CARGO env var"))
         .args(args)
         .envs(envs(target, api))
