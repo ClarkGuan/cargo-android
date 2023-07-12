@@ -73,11 +73,11 @@ fn toolchain(target: &str, api: usize) -> Toolchain {
                 &ndk, host_os, host_arch, api
             ),
             ar: format!(
-                "{}/toolchains/llvm/prebuilt/{}-{}/bin/arm-linux-androideabi-ar",
+                "{}/toolchains/llvm/prebuilt/{}-{}/bin/llvm-ar",
                 &ndk, host_os, host_arch
             ),
             strip: format!(
-                "{}/toolchains/llvm/prebuilt/{}-{}/bin/arm-linux-androideabi-strip",
+                "{}/toolchains/llvm/prebuilt/{}-{}/bin/llvm-strip",
                 &ndk, host_os, host_arch
             ),
         },
@@ -92,12 +92,12 @@ fn toolchain(target: &str, api: usize) -> Toolchain {
                 &ndk, host_os, host_arch, arch, api
             ),
             ar: format!(
-                "{}/toolchains/llvm/prebuilt/{}-{}/bin/{}-linux-android-ar",
-                &ndk, host_os, host_arch, arch
+                "{}/toolchains/llvm/prebuilt/{}-{}/bin/llvm-ar",
+                &ndk, host_os, host_arch
             ),
             strip: format!(
-                "{}/toolchains/llvm/prebuilt/{}-{}/bin/{}-linux-android-strip",
-                &ndk, host_os, host_arch, arch
+                "{}/toolchains/llvm/prebuilt/{}-{}/bin/llvm-strip",
+                &ndk, host_os, host_arch
             ),
         },
     }
@@ -149,7 +149,7 @@ where
         "cd /data/local/tmp/".as_ref(),
         "&& chmod 777".as_ref(),
         target.as_ref(),
-        "&& time sh -c 'LD_LIBRARY_PATH=/data/local/tmp".as_ref(),
+        "&& time sh -c 'LD_LIBRARY_PATH=/data/local/tmp RUST_BACKTRACE=full".as_ref(),
         target.as_ref(),
     ];
     let mut cmd = Command::new("adb");
