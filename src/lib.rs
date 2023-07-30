@@ -3,11 +3,11 @@ use std::ffi::OsStr;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 
-pub fn run(target: &str) {
+pub fn run(target: &str, min_level: usize) {
     let (api, args) = process_args();
     // NDKr23 最低支持 APILevel 16
-    let api = if api < 16 {
-        16
+    let api = if api < min_level {
+        min_level
     } else if api == 25 {
         24
     } else {

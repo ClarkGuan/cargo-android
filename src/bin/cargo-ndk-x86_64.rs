@@ -1,3 +1,3 @@
 fn main() {
-    cargo_android::run("x86_64-linux-android");
+    cargo_android::run("x86_64-linux-android", 21);
 }
