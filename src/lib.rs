@@ -5,7 +5,8 @@ use std::process::{Command, Stdio};
 
 pub fn run(target: &str) {
     let (api, args) = process_args();
-    let api = if api < 19 { 19 } else { api };
+    // NDKr23 最低支持 APILevel 16
+    let api = if api < 16 { 16 } else { api };
     let _ = Command::new(env::var("CARGO").expect("no CARGO env var"))
         .args(args)
         .envs(envs(target, api))
@@ -19,7 +20,8 @@ fn process_args() -> (usize, Vec<String>) {
     if first.starts_with("api=") {
         ((&first[4..]).parse().unwrap(), (&args[1..]).to_vec())
     } else {
-        (28, args)
+        // 默认为 Android 8.0
+        (26, args)
     }
 }
 
