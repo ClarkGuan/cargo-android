@@ -26,8 +26,12 @@ fn process_args() -> (usize, Vec<String>) {
     if first.starts_with("api=") {
         ((&first[4..]).parse().unwrap(), (&args[1..]).to_vec())
     } else {
-        // 默认为 Android 8.0
-        (26, args)
+        // 默认为 Android 4.4
+        //
+        // 如果是 NDKr23，可以手动设置支持到 Android 4.1
+        // 其他情况，编译产物最少需要支持到 Android 4.4
+        // 对于 64 位 Android 产物最少支持到 Android 5.0
+        (19, args)
     }
 }
 
