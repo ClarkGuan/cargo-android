@@ -1,4 +1,3 @@
-use scopeguard::defer;
 use std::env;
 
 fn main() {
@@ -10,9 +9,6 @@ fn main() {
         files.len() > 0 && cargo_android::is_file(&files[0]),
         "runnable file not found"
     );
-    defer! {
-        assert!(cargo_android::adb_remove_all(), "adb_remove_all failed!");
-    }
     for f in files {
         assert!(cargo_android::adb_push(f), "adb push error: {}", f);
     }
@@ -20,11 +16,12 @@ fn main() {
         cargo_android::adb_run(cargo_android::path_of_device(&files[0]), args),
         "adb run error!"
     );
+    assert!(cargo_android::adb_remove_all(), "adb_remove_all failed!");
 }
 
 // cargo xxx -- xxx xxx xxx
 // =>
 // cargo-xxx xxx xxx xxx
 fn partition(args: &[String]) -> (&[String], &[String]) {
-    (&args[..1], &args[1..])
+    (&args[1..2], &args[2..])
 }

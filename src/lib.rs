@@ -73,7 +73,12 @@ fn toolchain(target: &str, api: usize) -> Toolchain {
     } else {
         host_os
     };
-    let host_arch = target::arch();
+    let host_arch = if host_os == "darwin" {
+        // arm CPU 也是该值
+        "x86_64"
+    } else {
+        target::arch()
+    };
     match arch {
         "armv7" => Toolchain {
             cc: format!(
